@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Screen</title>
+    <style>
+        /* Basic styling for body */
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    min-height: 100vh; /* Set min-height to 100vh to make sure it stretches the entire screen */
+    background-color: #000000; /* Dark background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items from the top */
+    flex-direction: column;
+    background-image: url('bk-img.png'); /* Adjust to relative path */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+        /* Loading screen styling */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+        }
+
+        /* Styling the rotating flipping coin */
+        .coin {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.8);
+            border: 5px solid rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: white;
+            animation: flip 2s infinite linear;
+        }
+
+        /* Coin flip animation */
+        @keyframes flip {
+            0% {
+                transform: rotateY(0deg);
+            }
+            50% {
+                transform: rotateY(180deg);
+            }
+            100% {
+                transform: rotateY(360deg);
+            }
+        }
+
+        /* Progress bar styling */
+        .progress-container {
+            width: 10%;
+            height: 10px;
+            background-color: #444;
+            margin-top: 20px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background-color: white;
+            border-radius: 5px;
+            transition: width 0.1s;
+        }
+
+        /* Main content styling */
+        .content {
+    display: block; /* Ensure it's visible and scrollable */
+    margin-top: 10vw;
+    margin-left: 35vw;
+    padding-top: 200px;
+    margin-bottom: 10vw;
+    text-align: center;
+    color: white;
+    position: relative;
+    padding: 20px;
+}
+        /* Navbar style */
+        .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0); /* Dark background for the navbar */
+    padding: 10px 20px;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 98vw;
+    z-index: 10000;
+    display: none; /* Initially hide the navbar */
+}
+
+        /* Logo on the left */
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-img {
+            height: 50px;
+        }
+
+        /* Navbar options in the middle */
+        .navbar .menu {
+            display: flex;
+            gap: 140px; /* Space between menu options */
+        }
+
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .menu a:hover {
+            background-color: #555; /* Darken background on hover */
+        }
+
+        /* Contact Us button on the right */
+        .navbar .contact-btn {
+            background-color: rgb(195, 33, 248); /* Tomato color for the button */
+            color: white;
+            border: none;
+            border-radius: 5%; /* Make the button round */
+            width: 150px;
+            height: 50px;
+            margin-left: 20vw;
+            position: relative;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .heading-color1 {
+            color: rgb(195, 33, 248);
+        }
+
+        .main-heading {
+            font-family: Franklin Gothic Book;
+            font-size: 50px;
+        }
+
+        .glass-button {
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            background: rgba(180, 27, 201, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(120, 18, 216, 0.6), 0 8px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+    .carousel-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80vw;
+    max-width: 1200px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card {
+    width: 200px;
+    height: 300px;
+    margin: 0 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    border-radius: 20px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Image should be at the top of the card */
+.card img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+}
+
+.card .text {
+    padding: 10px;
+    color: #333;
+}
+
+/* Center card (the main one) */
+.card.center {
+    transform: scale(1.2); /* Make the center card bigger */
+    filter: none;
+    box-shadow: 0 0 20px 5px rgba(195, 33, 248, 0.8); /* Purple glow */
+}
+
+/* Left and right cards should be smaller and blurred */
+.card:not(.center) {
+    transform: scale(0.9); /* Make the non-center cards smaller */
+    filter: blur(3px); /* Apply blur to the non-center cards */
+    opacity: 0.7; /* Slightly dim the non-center cards */
+}
+
+/* Hover effect */
+.card:hover {
+    cursor: pointer;
+}
+
+        /* Each individual card */
+        .card {
+    width: 200px;
+    height: 300px;
+    margin: 0 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Ensures image is at the top and text at the bottom */
+    justify-content: flex-end; /* Push text to the bottom of the card */
+    border-radius: 20px;
+    background-color: #fff;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    border-radius: 5%;
+}
+
+.card img {
+    width: 100%;
+    height: 100%; /* Image will take up the top 50% of the card */
+    
+}
+
+.card .text {
+    padding: 10px;
+    color: #333;
+}
+
+        /* Center card is bigger and has purple glow */
+        .card.center {
+            transform: scale(1.2);
+            filter: none;
+            box-shadow: 0 0 20px 5px rgba(195, 33, 248, 0.8);
+        }
+
+        /* Left and right cards are smaller and blurred */
+        .card:not(.center) {
+            transform: scale(0.9);
+            filter: blur(3px);
+            opacity: 0.7;
+        }
+
+        /* Hover effect */
+        .card:hover {
+            cursor: pointer;
+        }
+
+        /* Carousel navigation buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .nav-button.prev {
+            left: -40px;
+        }
+
+        .nav-button.next {
+            right: -40px;
+        }
+
+
+
+
+
+
+
+
+
+        .img-partner {
+  width: 100px;
+  height: 100px;
+  animation: scroll 60s linear infinite;
+}
+
+.slide-track {
+  width: 100%;
+  display: flex;
+  gap: 3em;
+  overflow: hidden;
+}
+
+.slider {
+  margin-top: 1vw;
+  margin-left: 22vw;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 8em 2em;
+}
+
+@keyframes scroll {
+  0% {transform: translateX(0);}
+  100% {transform: translatex(-1000%)}
+}
+
+
+
+.partner-head{
+    color: rgb(255, 255, 255);
+    font-size: 60px;
+    text-align: center;
+    margin-top:5vw;
+    margin-left: 39vw;
+
+}
+
+    </style>
+
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="coin">₿</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content" id="mainContent">
+        <h1 class="main-heading"><span class="heading-color1">Presented</span> By</h1>
+        <button class="glass-button">BUDS X Supercomp</button>
+        <p>Lorem ipsum delorem est cest la vieLorem ipsum Lorem ipsum delorem est<br>Lorem ipsum delorem est cest la vieLorem ipsum Lorem ipsum delorem est  <br>cest la viedelorem est cest la vie</p>
+    </div>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+        <!-- Logo on the left -->
+        <div class="logo"><img class="logo-img" src="logo-cid.png" alt="Logo"></div>
+
+        <!-- Menu options in the middle -->
+        <div class="menu">
+            <a href="#">Events</a>
+            <a href="#">About Us</a>
+            <a href="#">Sponsors</a>
+        </div>
+
+        <!-- Contact Us button on the right -->
+        <button class="contact-btn">Contact Us</button>
+    </div>
+ <div class="carousel-container">
+        <button class="nav-button prev" onclick="moveCarousel(-1)">❮</button>
+    
+        <div class="carousel" id="carousel">
+            <div class="card center">
+                <img src="C:\Users\BUKC\Desktop\assets\img\cid1.jpg" alt="Image 1">
+            </div>
+            <div class="card">
+                <img src="C:\Users\BUKC\Desktop\assets\img\cid2.jpg" alt="Image 2">
+            </div>
+            <div class="card">
+                <img src="C:\Users\BUKC\Desktop\assets\img\cid2.jpg" alt="Image 3">
+            </div>
+            <div class="card">
+                <img src="C:\Users\BUKC\Desktop\assets\img\cid4.jpg" alt="Image 4">
+            </div>
+            <div class="card">
+                <img src="C:\Users\BUKC\Desktop\assets\img\cid1.jpg" alt="Image 5">
+            </div>
+        </div>
+    
+        <button class="nav-button next" onclick="moveCarousel(1)">❯</button>
+    </div>
+
+
+
+
+
+
+
+<h1 class="partner-head">Our Partners</h1>
+
+
+
+
+
+    <div class="slider">
+        <div class="slide-track">
+          <div class="slide">
+            <img class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\BUDS LOGO (No bg and No text) 1.png" alt="">
+          </div>
+          <div class="slide">
+            <img class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\image 5.png" alt="">
+          </div>
+          <div class="slide">
+            <img  class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\image 6.png" alt="">
+          </div>
+          <div class="slide">
+            <img  class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\image 7.png" alt="">
+          </div>
+          <div class="slide">
+            <img  class="img-partner"src="C:\Users\BUKC\Desktop\assets\img\our partners\image 8.png" alt="">
+          </div>
+          <div class="slide">
+            <img class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\image 9.png" alt="">
+          </div>
+          <div class="slide">
+            <img class="img-partner" src="C:\Users\BUKC\Desktop\assets\img\our partners\image 5.png" alt="">
+          </div>
+          
+        </div>
+      </div>
+
+
+
+      <p><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+       const carousel = document.getElementById('carousel');
+const cards = document.querySelectorAll('.card');
+let currentIndex = 0;
+const totalCards = cards.length;
+const cardWidth = cards[0].offsetWidth + 40; // Width of a card with margin
+
+// Function to update the carousel and center the selected card
+function updateCarousel() {
+    cards.forEach((card, index) => {
+        card.classList.remove('center'); // Remove center class from all cards
+        if (index === currentIndex) {
+            card.classList.add('center'); // Add center class to the current card
+        }
+    });
+
+    // Adjust the carousel's position so that the center card is aligned with the view
+    const offset = -(currentIndex * cardWidth); // Move by the width of one card plus margin
+    carousel.style.transform = `translateX(${offset}px)`;
+}
+
+// Function to move the carousel
+function moveCarousel(direction) {
+    currentIndex = (currentIndex + direction + totalCards) % totalCards; // Loop through cards
+    updateCarousel();
+}
+
+// Initialize carousel
+updateCarousel();
+
+// Auto move carousel every 3 seconds
+setInterval(() => {
+    moveCarousel(1); // Move carousel forward by one
+}, 3000); // Move every 3 seconds
+
+    </script>
+
+    <script>
+        // Function to simulate the loading process and update the progress bar
+        function simulateLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById("progressBar");
+            const loadingScreen = document.getElementById("loadingScreen");
+            const mainContent = document.getElementById("mainContent");
+            const navbar = document.getElementById("navbar");
+
+            const interval = setInterval(function() {
+                progress += 25; // Increase progress
+                progressBar.style.width = progress + "%"; // Update the progress bar
+
+                if (progress >= 100) {
+                    clearInterval(interval); // Stop the interval when 100% is reached
+                    // Hide the loading screen and show the main content
+                    setTimeout(function() {
+                        loadingScreen.style.display = "none"; // Hide the loading screen
+                        mainContent.style.display = "block"; // Show the main content
+                        navbar.style.display = "flex"; // Show the navbar
+                    }, 500); // Delay to allow the bar to reach full width
+                }
+            }, 100); // Update progress every 100ms
+        }
+
+        // Start the loading simulation
+        simulateLoading();
+    </script>
+</body>
+</html>
